@@ -36,7 +36,7 @@ import time
 
 from labjack import ljm
 
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -122,15 +122,15 @@ def hello_world():
         if loopAmount is not "infinite":
             i = i + 1
             if i >= loopAmount:
-                return f"<p>Device: {configtex} </p><p>Device: {loopstext} </p><p>Device: {deviceinfo} </p><p>Data: {message}  !</p>" #break   
+                return render_template('main.html',configtex_html=configtex, loopstext_html= loopstext,deviceinfo_html=deviceinfo,message_html=message ) #break   
     except KeyboardInterrupt:
-        return f"<p>Device: {configtex} </p><p>Device: {loopstext} </p><p>Device: {deviceinfo} </p><p>Data: {message}  !</p>" #break   
+        return render_template('main.html',configtex_html=configtex) #break   
     except Exception:
         print(sys.exc_info()[1])
-        return f"<p>Device: {configtex} </p><p>Device: {loopstext} </p><p>Device: {deviceinfo} </p><p>Data: {message}  !</p>" #break    
+        return render_template('main.html',configtex_html=configtex) #break    
 
     # Close handles
     ljm.cleanInterval(intervalHandle)
     ljm.close(handle)
 
-    return f"<p>Device: {configtex} </p><p>Device: {loopstext} </p><p>Device: {deviceinfo} </p><p>Data: {message}  !</p>" #break   
+    return render_template('main.html',configtex_html=configtex, loopstext_html= loopstext,deviceinfo_html=deviceinfo,message_html=results[0] ) #break
