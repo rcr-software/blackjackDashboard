@@ -41,11 +41,19 @@ document.addEventListener("DOMContentLoaded", function() {
   stroke: {
     dashArray: 4
   },
-  labels: ['Median Ratio'],
+  labels: ['Signal'],
   };
 
-  var chart = new ApexCharts(document.querySelector("#chart"), options);
-  chart.render();
+  var chart1 = new ApexCharts(document.querySelector("#chart1"), options);
+  chart1.render();
 
+  var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
+  chart2.render();
+
+  var chart3 = new ApexCharts(document.querySelector("#chart3"), options);
+  chart3.render();
+
+  var chart4 = new ApexCharts(document.querySelector("#chart4"), options);
+  chart4.render();
 
 });
