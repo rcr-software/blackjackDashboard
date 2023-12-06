@@ -37,8 +37,10 @@ import time
 from labjack import ljm
 
 from flask import Flask, render_template, jsonify, request
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 global counter
 counter=0
@@ -56,15 +58,16 @@ def update():
     # Read AIN0 and AIN1 from the LabJack with eReadNames in a loop.
     numFrames = 2
     names = ["AIN0", "AIN1"]
-    handle = ljm.openS("T7", "ANY", "ANY")
-    results = ljm.eReadNames(handle, numFrames, names)
+    
+    #handle = ljm.openS("T7", "ANY", "ANY")
+    #results = ljm.eReadNames(handle, numFrames, names)
     #message = "AIN0 : %f V, AIN1 : %f V" % (results[0], results[1])
 
-    data = {'update': results[0]}     #data = {'update': counter}
+    data = {'update': counter}#data = {'update': results[0]}     #data = {'update': counter}
 
     return jsonify(data), 200, {'Content-Type': 'application/json'}
 
-@app.route("/")
+@app.route("/a")
 def hello_world():
 
     # loopMessage = ""
@@ -147,7 +150,7 @@ def hello_world():
         #print(message)
 
         ljm.waitForNextInterval(intervalHandle)
-        if loopAmount is not "infinite":
+        if loopAmount != "infinite":
             i = i + 1
             if i >= loopAmount:
                 pass
@@ -162,4 +165,30 @@ def hello_world():
     ljm.cleanInterval(intervalHandle)
     ljm.close(handle)
 
-    return render_template('main2.html',configtex_html=configtex, loopstext_html= loopstext,deviceinfo_html=deviceinfo,message_html=message ) #break results[0]
+    return render_template('main.html',configtex_html=configtex, loopstext_html= loopstext,deviceinfo_html=deviceinfo,message_html=message ) #break results[0]
+
+
+@app.route('/')
+def index():
+    return render_template('test.html')
+
+
+@socketio.on('connect', namespace='/data')
+def handle_connect():
+    print('Client connected')
+
+@socketio.on('disconnect', namespace='/data')
+def handle_disconnect():
+    print('Client disconnected')
+
+def stream_data():
+    while True:
+        data_point = random.randint(1, 100)
+        print("enviado")
+        socketio.emit('update', {'data': data_point}, namespace='/data')
+        time.sleep(1000)
+
+if __name__ == '__main__':
+    #socketio.run(app)
+    socketio.start_background_task(target=stream_data)
+    socketio.run(app, debug=True)
