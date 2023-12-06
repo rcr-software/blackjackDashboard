@@ -36,31 +36,59 @@ import time
 
 from labjack import ljm
 
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, request
 
 app = Flask(__name__)
+
+global counter
+counter=0
+@app.route("/get_update")
+def update():
+    global counter
+    counter=counter+1;
+    param_value = request.args.get('param_name', 'default_value')
+    #print("param_value",param_value)
+    param_value = str(int(param_value)+1)
+    #data = {'update': param_value}
+
+    #print("Server Data:", data) 
+    
+    # Read AIN0 and AIN1 from the LabJack with eReadNames in a loop.
+    numFrames = 2
+    names = ["AIN0", "AIN1"]
+    handle = ljm.openS("T7", "ANY", "ANY")
+    results = ljm.eReadNames(handle, numFrames, names)
+    #message = "AIN0 : %f V, AIN1 : %f V" % (results[0], results[1])
+
+    data = {'update': results[0]}     #data = {'update': counter}
+
+    return jsonify(data), 200, {'Content-Type': 'application/json'}
 
 @app.route("/")
 def hello_world():
 
-    loopMessage = ""
-    if len(sys.argv) > 1:
-        # An argument was passed. The first argument specifies how many times to
-        # loop.
-        try:
-            loopAmount = 10 # int(sys.argv[1])
-        except:
-            raise Exception("Invalid first argument \"%s\". This specifies how many"
-                            " times to loop and needs to be a number." %
-                            str(sys.argv[1]))
-    else:
-        # An argument was not passed. Loop an infinite amount of times.
-        loopAmount = "infinite"
-        loopMessage = " Press Ctrl+C to stop."
+    # loopMessage = ""
+    # if len(sys.argv) > 1:
+    #     # An argument was passed. The first argument specifies how many times to
+    #     # loop.
+    #     try:
+    #         loopAmount = 10 # int(sys.argv[1])
+    #     except:
+    #         raise Exception("Invalid first argument \"%s\". This specifies how many"
+    #                         " times to loop and needs to be a number." %
+    #                         str(sys.argv[1]))
+    # else:
+    #     # An argument was not passed. Loop an infinite amount of times.
+    #     loopAmount = "infinite"
+    #     loopMessage = " Press Ctrl+C to stop."
+   
+    loopAmount = "infinite"
+    loopMessage = " Press Ctrl+C to stop."
 
     # Open first found LabJack
-    handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
-    #handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+    handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+
+    #handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
     #handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
     #handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
 
@@ -122,15 +150,16 @@ def hello_world():
         if loopAmount is not "infinite":
             i = i + 1
             if i >= loopAmount:
-                return render_template('main.html',configtex_html=configtex, loopstext_html= loopstext,deviceinfo_html=deviceinfo,message_html=message ) #break   
+                pass
+                #return render_template('main2.html',configtex_html=configtex, loopstext_html= loopstext,deviceinfo_html=deviceinfo,message_html=message ) #break   
     except KeyboardInterrupt:
-        return render_template('main.html',configtex_html=configtex) #break   
+        pass#return render_template('main.html',configtex_html=configtex) #break   
     except Exception:
         print(sys.exc_info()[1])
-        return render_template('main.html',configtex_html=configtex) #break    
+        pass#return render_template('main.html',configtex_html=configtex) #break    
 
     # Close handles
     ljm.cleanInterval(intervalHandle)
     ljm.close(handle)
 
-    return render_template('main.html',configtex_html=configtex, loopstext_html= loopstext,deviceinfo_html=deviceinfo,message_html=results[0] ) #break
+    return render_template('main2.html',configtex_html=configtex, loopstext_html= loopstext,deviceinfo_html=deviceinfo,message_html=message ) #break results[0]
