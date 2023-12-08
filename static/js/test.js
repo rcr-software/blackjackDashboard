@@ -39,9 +39,17 @@ var chart1 = new ApexCharts(document.querySelector('#chart1'), options);
 var chart2 = new ApexCharts(document.querySelector('#chart2'), options);
 var chart3 = new ApexCharts(document.querySelector('#chart3'), options);
 
+var chart4 = new ApexCharts(document.querySelector('#chart4'), options);
+var chart5 = new ApexCharts(document.querySelector('#chart5'), options);
+var chart6 = new ApexCharts(document.querySelector('#chart6'), options);
+
+
 chart1.render();
 chart2.render();
 chart3.render();
+chart4.render();
+chart5.render();
+chart6.render();
 
 var paramValue =1;
 var datos =0;
@@ -54,13 +62,17 @@ function pollServer() {
     dataType: 'json',
     success: function (data) {
         // Update the UI with the received data
-        console.log(data.update);
-        value = data.update;
-        datos=value;
-        console.log(datos);
-        chart1.updateSeries([datos],true);
-        chart2.updateSeries([datos],true);
-        chart3.updateSeries([datos],true);
+        console.log(data.sensor1);
+        //value = data.sensor1;
+        //datos=value;
+        console.log(data.results);
+        chart1.updateSeries([data.sensor1],true);
+        chart2.updateSeries([data.sensor2],true);
+        chart3.updateSeries([data.sensor3],true);
+        chart4.updateSeries([data.sensor4],true);
+        chart5.updateSeries([data.sensor5],true);
+        chart6.updateSeries([data.sensor6],true);
+
         //return value
         setTimeout(pollServer, 500);
         
@@ -68,8 +80,9 @@ function pollServer() {
     error: function (error) {
         console.error('Error during polling:', error);
         value= 0;
+        alert("Error During Conection with LabJack");
         // Handle errors and retry
-        setTimeout(pollServer, 500); // Retry every 1 second
+        setTimeout(pollServer, 1000); // Retry every 1 second
         }
     });
 }

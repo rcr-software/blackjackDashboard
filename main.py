@@ -56,14 +56,20 @@ def update():
     #print("Server Data:", data) 
     
     # Read AIN0 and AIN1 from the LabJack with eReadNames in a loop.
-    numFrames = 2
-    names = ["AIN0", "AIN1"]
+    numFrames = 4
+    names = ["AIN0", "AIN1", "AIN2", "AIN3"]
     
     handle = ljm.openS("T7", "ANY", "ANY")
     results = ljm.eReadNames(handle, numFrames, names)
     #message = "AIN0 : %f V, AIN1 : %f V" % (results[0], results[1])
 
-    data = {'update': results[0]}#data = {'update': results[0]}     #data = {'update': counter}
+    data = {'sensor1': results[0],
+            'sensor2': results[1],
+            'sensor3': results[2],
+            'sensor4': results[3],
+            'sensor5': results[0],
+            'sensor6': results[0],
+            'results': results}#data = {'update': results[0]}     #data = {'update': counter}
 
     return jsonify(data), 200, {'Content-Type': 'application/json'}
 
