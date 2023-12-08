@@ -47,7 +47,7 @@ counter=0
 @app.route("/get_update")
 def update():
     global counter
-    counter=counter+1;
+    counter=counter+1
     param_value = request.args.get('param_name', 'default_value')
     #print("param_value",param_value)
     param_value = str(int(param_value)+1)
@@ -59,11 +59,11 @@ def update():
     numFrames = 2
     names = ["AIN0", "AIN1"]
     
-    #handle = ljm.openS("T7", "ANY", "ANY")
-    #results = ljm.eReadNames(handle, numFrames, names)
+    handle = ljm.openS("T7", "ANY", "ANY")
+    results = ljm.eReadNames(handle, numFrames, names)
     #message = "AIN0 : %f V, AIN1 : %f V" % (results[0], results[1])
 
-    data = {'update': counter}#data = {'update': results[0]}     #data = {'update': counter}
+    data = {'update': results[0]}#data = {'update': results[0]}     #data = {'update': counter}
 
     return jsonify(data), 200, {'Content-Type': 'application/json'}
 
