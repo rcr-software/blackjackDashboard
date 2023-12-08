@@ -1,21 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>RCR-Rocketry</title>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" src="static/templates/assets/styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.27.1/dist/apexcharts.css" />
+    <link rel="stylesheet" src="static/templates/assets/styles.css" />
+    <!--link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.27.1/dist/apexcharts.css" /-->
+
 </head>
-<body>
-    <div id= "value"> </div>
-    <div id="chart"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-    <script src="static/js/test.js"></script>
+<body style="background-color: #000000">
+    <div id="wrapper">
+        <div class="content-area">
+          <div class="container-fluid" style="background-color: #000000">
+            <!--div class="text-right mt-3 mb-3 d-fixed"-->
+            <div class="d-fixed mt-4">
+                    <a
+                    href="/diagram"
+                    target="_blank"
+                    class="btn btn-outline-warning mr-2"
+                    >
+                    <span class="btn-text">P&ID-Diagram-Full</span>
+                    </a> 
 
+                    <a
+                    href="https://rivercityrocketry.com"
+                    target="_blank"
+                    class="btn btn-outline-warning mr-2"
+                    >
+                        <span class="btn-text">Start Sequence 1</span>
+                    </a>
+
+                    <a
+                    href="https://rivercityrocketry.com"
+                    target="_blank"
+                    class="btn btn-outline-warning mr-2"
+                    >
+                    <span class="btn-text">Start Sequence 2</span>
+                    </a>
+            </div>
+        
+            <div id= "value" class="container-fluid" style="background-color: #000000; color: #FFFFFF" >Rivercity Rocketry</div>
+            
+            <table>
+                <tr>
+                  <td><div id="chart1"></div></td>
+                  <td><div id="chart2"></div></td>
+                  <td><div id="chart3"></div></td>
+                </tr>
+              </table>   
+
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+            <script src="static/js/test.js"></script>
+
+            </div>
+        </div>
+    </div>    
 </body>
 </html>

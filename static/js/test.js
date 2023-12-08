@@ -4,13 +4,44 @@ var options = {
     chart: {
         height: 350,
         type: 'radialBar',
+        color: '#000000',
+        startAngle: -143,
+        endAngle: 114,
     },
-    series: [70],
-    labels: ['Progress'],
+    track: {
+        show: true,
+        colors: ['#f1b203'],
+        background: '#000000',
+        strokeWidth: '10%',
+        opacity: 0.2,
+        margin: 3,},
+    series: [0],
+    labels: ['Temperature'],
+    fill: {
+        type: 'gradient',
+        gradient: {
+          colors: ['#e8c21a', '#e8c21a'],
+          shade: 'dark',
+          type: 'horizontal',
+          shadeIntensity: 0.5,
+          inverseColors: true,
+          opacityFrom: 1,
+          opacityTo: 1,
+          stops: [0, 100]
+        }
+      }
     };
 
-var chart = new ApexCharts(document.querySelector('#chart'), options);
-chart.render();
+
+
+
+var chart1 = new ApexCharts(document.querySelector('#chart1'), options);
+var chart2 = new ApexCharts(document.querySelector('#chart2'), options);
+var chart3 = new ApexCharts(document.querySelector('#chart3'), options);
+
+chart1.render();
+chart2.render();
+chart3.render();
 
 var paramValue =1;
 var datos =0;
@@ -27,7 +58,9 @@ function pollServer() {
         value = data.update;
         datos=value;
         console.log(datos);
-        chart.updateSeries([datos],true);
+        chart1.updateSeries([datos],true);
+        chart2.updateSeries([datos],true);
+        chart3.updateSeries([datos],true);
         //return value
         setTimeout(pollServer, 500);
         

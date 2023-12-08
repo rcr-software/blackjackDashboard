@@ -67,6 +67,10 @@ def update():
 
     return jsonify(data), 200, {'Content-Type': 'application/json'}
 
+@app.route("/diagram")
+def diagram_full():
+    return render_template('pidDiagramFull.html') 
+
 @app.route("/a")
 def hello_world():
 
